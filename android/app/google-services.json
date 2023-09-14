@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "903938828191",
+    "project_id": "game-bros-f6caf",
+    "storage_bucket": "game-bros-f6caf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:903938828191:android:51b2cc1f2cde30d6197faa",
+        "android_client_info": {
+          "package_name": "com.example.game_bros"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEhVyPLBGsk1r8Fc4HGYwh9mKO_y0sUco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
