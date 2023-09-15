@@ -12,7 +12,20 @@
           "package_name": "com.example.game_bros"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "903938828191-magu2ofhv88jo94bf3sqgo2qr21p6o51.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.game_bros",
+            "certificate_hash": "b8a2cbc25983576916526040d7c3e409c26f0486"
+          }
+        },
+        {
+          "client_id": "903938828191-3le1uoth7e4lel4l7g2qd19gm9h7pi4p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDEhVyPLBGsk1r8Fc4HGYwh9mKO_y0sUco"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "903938828191-3le1uoth7e4lel4l7g2qd19gm9h7pi4p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "903938828191-jaj517a2i0c63qrptkjm4aen5ha889pg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.gameBros"
+              }
+            }
+          ]
         }
       }
     }

@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -25,7 +28,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -43,15 +49,6 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDNUBg3Fxnshmf_0QM1a2FWUYHo78EZF3Q',
-    appId: '1:903938828191:web:c3c30ac07d7c7260197faa',
-    messagingSenderId: '903938828191',
-    projectId: 'game-bros-f6caf',
-    authDomain: 'game-bros-f6caf.firebaseapp.com',
-    storageBucket: 'game-bros-f6caf.appspot.com',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDEhVyPLBGsk1r8Fc4HGYwh9mKO_y0sUco',
     appId: '1:903938828191:android:51b2cc1f2cde30d6197faa',
@@ -66,15 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '903938828191',
     projectId: 'game-bros-f6caf',
     storageBucket: 'game-bros-f6caf.appspot.com',
+    androidClientId: '903938828191-magu2ofhv88jo94bf3sqgo2qr21p6o51.apps.googleusercontent.com',
+    iosClientId: '903938828191-jaj517a2i0c63qrptkjm4aen5ha889pg.apps.googleusercontent.com',
     iosBundleId: 'com.example.gameBros',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyB9LpJaK-6P7f6t8JsNABISusAJAP_CZhI',
-    appId: '1:903938828191:ios:71e99f63698f83d9197faa',
-    messagingSenderId: '903938828191',
-    projectId: 'game-bros-f6caf',
-    storageBucket: 'game-bros-f6caf.appspot.com',
-    iosBundleId: 'com.example.gameBros.RunnerTests',
   );
 }

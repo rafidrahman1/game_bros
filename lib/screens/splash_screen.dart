@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:game_bros/main.dart';
+import 'package:game_bros/screens/auth/login_screeen.dart';
 import 'package:game_bros/screens/home_screen.dart';
+import '../api/apis.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,8 +17,19 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(milliseconds: 1500), () {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => const HomeScreen()));
+      //exit full-screen
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+      SystemChrome.setSystemUIOverlayStyle(
+          const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+      if (APIs.auth.currentUser != null) {
+        //navigate to homescreen
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const HomeScreen()));
+      } else {
+        //navigate to loginscreen
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const LoginScreen()));
+      }
     });
   }
 

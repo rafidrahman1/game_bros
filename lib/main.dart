@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 import 'package:game_bros/screens/splash_screen.dart';
 import 'firebase_options.dart';
 
@@ -7,8 +8,16 @@ import 'firebase_options.dart';
 late Size mq;
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  _initializeFirebase();
-  runApp(const MyApp());
+  //enter full-screen
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
+  //for setting orientation to potrait only
+  SystemChrome.setPreferredOrientations(
+          [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
+      .then((value) {
+    _initializeFirebase();
+    runApp(const MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {
