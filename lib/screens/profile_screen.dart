@@ -104,7 +104,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.person, color: Colors.blue),
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10)),
+                            borderRadius: BorderRadius.circular(15)),
                         hintText: 'Firstname',
                         label: Text('Name'),
                       ),

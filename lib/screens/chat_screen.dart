@@ -3,8 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:game_bros/main.dart';
 import 'package:game_bros/model/chat_user.dart';
+import 'package:game_bros/widgets/message_card.dart';
 
 import '../api/apis.dart';
+import '../model/message.dart';
 
 class ChatScreen extends StatefulWidget {
   final ChatUser user;
@@ -16,6 +18,11 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  //for storing all messages
+  List<Message> _list = [];
+  //for handling message text changes
+  final _textController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -25,26 +32,26 @@ class _ChatScreenState extends State<ChatScreen> {
           flexibleSpace: _appBar(),
         ),
 
+        backgroundColor: Color.fromRGBO(204, 252, 248, 0.911),
+
         //body
         body: Column(children: [
           Expanded(
             child: StreamBuilder(
-              stream: APIs.getAllUsers(),
+              stream: APIs.getAllMessages(widget.user),
               builder: (context, snapshot) {
                 switch (snapshot.connectionState) {
                   //if data is loading
                   case ConnectionState.waiting:
                   case ConnectionState.none:
-                    return const Center(child: CircularProgressIndicator());
+                    return const SizedBox();
                   //if some or all data is loaded then show it
                   case ConnectionState.active:
                   case ConnectionState.done:
-                    // final data = snapshot.data?.docs;
-                    // _list =
-                    //     data?.map((e) => ChatUser.fromJson(e.data())).toList() ??
-                    //         [];
-
-                    final _list = [];
+                    final data = snapshot.data?.docs;
+                    _list =
+                        data?.map((e) => Message.fromJson(e.data())).toList() ??
+                            [];
 
                     if (_list.isNotEmpty) {
                       return ListView.builder(
@@ -52,11 +59,11 @@ class _ChatScreenState extends State<ChatScreen> {
                           padding: EdgeInsets.only(top: mq.height * .01),
                           physics: const BouncingScrollPhysics(),
                           itemBuilder: (contex, index) {
-                            return Text('Message: ${_list[index]}');
+                            return MessageCard(message: _list[index]);
                           });
                     } else {
                       return const Center(
-                          child: Text("No Connections Found!",
+                          child: Text("Say Hi! 🤌",
                               style: TextStyle(fontSize: 20)));
                     }
                 }
@@ -97,7 +104,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
         Spacer(),
         ClipRRect(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(15),
           //chat image
           child: CachedNetworkImage(
               width: mq.height * .045,
@@ -131,8 +138,9 @@ class _ChatScreenState extends State<ChatScreen> {
                         color: Colors.blueAccent,
                       )),
                   //text field
-                  const Expanded(
+                  Expanded(
                       child: TextField(
+                    controller: _textController,
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
                     decoration: const InputDecoration(
@@ -162,7 +170,16 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           //send message button
           MaterialButton(
-            onPressed: () {},
+            onPressed: () {
+              if (_textController.text.isNotEmpty) {
+                APIs.sendMessage(widget.user, _textController.text, Type.text);
+              }
+              //  else {
+              //   //simply send message
+              //   APIs.sendMessage(widget.user, _textController.text, Type.text);
+              // }
+              _textController.text = '';
+            },
             minWidth: 0,
             padding: EdgeInsets.only(top: 10, bottom: 10, right: 10, left: 10),
             shape:
