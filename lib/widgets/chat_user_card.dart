@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:game_bros/main.dart';
 import 'package:game_bros/model/chat_user.dart';
+import 'package:game_bros/screens/chat_screen.dart';
 
 class ChatUserCard extends StatefulWidget {
   final ChatUser user;
@@ -21,12 +22,21 @@ class _ChatUserCardState extends State<ChatUserCard> {
       elevation: .5,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          //for navigating to chat screen
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (_) => ChatScreen(
+                        user: widget.user,
+                      )));
+        },
         child: ListTile(
           // leading: CircleAvatar(child: Icon(CupertinoIcons.person)),
           //user profile picture from gmail
           leading: ClipRRect(
             borderRadius: BorderRadius.circular(10),
+            //chat image
             child: CachedNetworkImage(
               width: mq.height * .055,
               height: mq.height * .055,
@@ -37,8 +47,9 @@ class _ChatUserCardState extends State<ChatUserCard> {
           ),
           title: Text(widget.user.name),
           subtitle: Text('Last user message', maxLines: 1),
+          //Online status indicator
           trailing: Container(
-            margin: EdgeInsets.fromLTRB(0, 0, 20, 10),
+            margin: EdgeInsets.symmetric(horizontal: 10),
             width: 15,
             height: 15,
             decoration: BoxDecoration(

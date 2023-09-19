@@ -27,6 +27,9 @@ dependencies:
   cloud_firestore: ^4.9.1
   #for showing network images
   cached_network_image: ^3.2.3
+  #for flutter toast msg
+  fluttertoast: ^8.2.2
+  image_picker: ^1.0.4
 
 dev_dependencies:
   flutter_test:

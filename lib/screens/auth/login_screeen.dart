@@ -45,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen>
           Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (_) => const HomeScreen()));
         } else {
-          await APIs.creteUser().then((value) {
+          await APIs.createUser().then((value) {
             Navigator.pushReplacement(
                 context, MaterialPageRoute(builder: (_) => const HomeScreen()));
           });
