@@ -30,6 +30,7 @@ dependencies:
   #for flutter toast msg
   fluttertoast: ^8.2.2
   image_picker: ^1.0.4
+  upgrader: ^5.0.0
 
 dev_dependencies:
   flutter_test:

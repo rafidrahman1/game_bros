@@ -46,7 +46,7 @@ class APIs {
         name: user.displayName.toString(),
         email: user.email.toString(),
         image: user.photoURL.toString(),
-        about: user.about.toString(),
+        about: "Hey, I'm using We Chat!",
         isOnline: false,
         lastActive: time,
         pushToken: '');
