@@ -52,7 +52,7 @@ class APIs {
       var res = await post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
           headers: {
             HttpHeaders.contentTypeHeader: 'application/json',
-            HttpHeaders.authorizationHeader: 'key='
+            HttpHeaders.authorizationHeader: 'key=sagsdafsdfsadfsdf'
           },
           body: jsonEncode(body));
       log('Response status: ${res.statusCode}');
