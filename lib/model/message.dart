@@ -29,7 +29,9 @@ class Message {
     type = json['type'].toString() == Type.image.name ? Type.image : Type.text;
     fromId = json['fromId'].toString();
     sent = json['sent'].toString();
-    senderName = json['senderName'].toString(); // Initialize the sender's name
+    senderName = json['senderName'].toString();
+    senderImage =
+        json['senderImage'].toString(); // Initialize the sender's name
   }
 
   Map<String, dynamic> toJson() {
@@ -41,7 +43,8 @@ class Message {
     data['type'] = type.name;
     data['fromId'] = fromId;
     data['sent'] = sent;
-    data['senderName'] = senderName; // Serialize the sender's name
+    data['senderName'] = senderName;
+    data['senderImage'] = senderImage; // Serialize the sender's name
     return data;
   }
 }

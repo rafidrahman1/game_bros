@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:game_bros/api/apis.dart';
-import 'package:game_bros/helper/my_date_util.dart';
 import 'package:game_bros/main.dart';
 import 'package:game_bros/model/chat_user.dart';
 import 'package:game_bros/model/message.dart';

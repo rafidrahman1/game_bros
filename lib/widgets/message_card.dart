@@ -11,11 +11,13 @@ class MessageCard extends StatefulWidget {
     Key? key,
     required this.message,
     required this.currentUser,
-    required this.senderName, // Add senderName parameter
+    required this.senderName,
+    required this.senderImage, // Add senderName parameter
   }) : super(key: key);
 
   final Message message;
   final ChatUser currentUser;
+  final String senderImage;
   final String senderName; // Add this line
 
   @override
@@ -35,16 +37,6 @@ class _MessageCardState extends State<MessageCard> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(mq.height * .03),
-          child: CachedNetworkImage(
-            width: mq.height * .05,
-            height: mq.height * .05,
-            imageUrl: widget.currentUser.image,
-            errorWidget: (context, url, error) =>
-                const CircleAvatar(child: Icon(CupertinoIcons.person)),
-          ),
-        ),
         // Row(
         //   children: [
         //     //for adding some space
@@ -103,6 +95,19 @@ class _MessageCardState extends State<MessageCard> {
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: .2, left: 10),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: CachedNetworkImage(
+                  width: mq.height * .05,
+                  height: mq.height * .05,
+                  imageUrl: widget.senderImage,
+                  errorWidget: (context, url, error) =>
+                      const CircleAvatar(child: Icon(CupertinoIcons.person)),
+                ),
+              ),
+            ),
             Flexible(
               child: Container(
                 padding: EdgeInsets.all(10),
@@ -114,12 +119,7 @@ class _MessageCardState extends State<MessageCard> {
                 ),
                 decoration: BoxDecoration(
                   color: Color.fromARGB(255, 255, 255, 253),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(0),
-                    topRight: Radius.circular(15),
-                    bottomRight: Radius.circular(15),
-                    bottomLeft: Radius.circular(15),
-                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
                 ),
                 child: Text(
                   widget.message.msg,

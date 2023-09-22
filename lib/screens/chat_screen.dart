@@ -68,6 +68,7 @@ class _ChatScreenState extends State<ChatScreenState> {
                     return MessageCard(
                       message: _groupMessages[index],
                       currentUser: APIs.me,
+                      senderImage: _groupMessages[index].senderImage,
                       senderName: _groupMessages[index]
                           .senderName, // Provide sender's name here
                     );

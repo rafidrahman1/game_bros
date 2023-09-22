@@ -16,53 +16,6 @@ class APIs {
   static FirebaseMessaging fmessaging = FirebaseMessaging.instance;
   static String? t;
 
-  static Future<void> getFirebaseMessagingToken() async {
-    await fmessaging.requestPermission();
-    fmessaging.getToken().then((t) {
-      if (t != null) {
-        me.pushToken = t;
-        APIs.updateActiveStatus(true);
-        log('Push Token: $t');
-      }
-    });
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      log('Got a message whilst in the foregroung!');
-      log('Message data: ${message.data}');
-      if (message.notification != null) {
-        log('Message also contained a notificaiton: ${message.notification}');
-      }
-    });
-  }
-
-  static Future<void> sendPushNotification(
-      ChatUser chatUser, String msg) async {
-    try {
-      final body = {
-        "to": chatUser.pushToken,
-        "notification": {
-          "title": me.name, //our name should be send
-          "body": msg,
-          "android_channel_id": "chats"
-        },
-        "data": {
-          "some_data": "User ID: ${me.id}",
-        },
-      };
-
-      var res = await post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
-          headers: {
-            HttpHeaders.contentTypeHeader: 'application/json',
-            HttpHeaders.authorizationHeader:
-                'key=AAAA0nbz558:APA91bE4gwyWq-zcFM8aQcgvo93fE229sLs4JX2fbhxNpxvxsBOV6ycPWGtACfQd2zPbsEjWsUNhe4MeVJ5C30wxKoSni5lLfDKIIs6N3XXb7N5fB3FsB5tZQOpbnU2SOTL1he8zQGJC'
-          },
-          body: jsonEncode(body));
-      log('Response status: ${res.statusCode}');
-      log('Response body: ${res.body}');
-    } catch (e) {
-      log('\nsendPushNotificationE: $e');
-    }
-  }
-
   static Future<void> updateActiveStatus(bool isOnline) async {
     firestore.collection('users').doc(user.uid).update({
       'is_online': isOnline,
@@ -181,7 +134,6 @@ class APIs {
     // Send push notifications to all users in the group except the sender
     for (final userDoc in users.docs) {
       final chatUser = ChatUser.fromJson(userDoc.data());
-      log('$userDoc');
       await sendPushNotification(chatUser, type == Type.text ? msg : 'image');
     }
   }
@@ -209,17 +161,56 @@ class APIs {
     groupChatIds: [],
   );
 
-  static Future<void> updateMessageReadStatus(Message message) async {
-    firestore
-        .collection('chats/${getConversationID(message.fromId)}/messages/')
-        .doc(message.sent)
-        .update({'read': DateTime.now().millisecondsSinceEpoch.toString()});
-  }
-
   static Future<void> updateUserInfo() async {
     await firestore.collection('users').doc(user.uid).update({
       'name': me.name,
       'about': me.about,
+    });
+  }
+
+  static Future<void> sendPushNotification(
+      ChatUser chatUser, String msg) async {
+    try {
+      final body = {
+        "to": chatUser.pushToken,
+        "notification": {
+          "title": me.name, //our name should be send
+          "body": msg,
+          "android_channel_id": "chats"
+        },
+        "data": {
+          "some_data": "User ID: ${me.id}",
+        },
+      };
+
+      var res = await post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+          headers: {
+            HttpHeaders.contentTypeHeader: 'application/json',
+            HttpHeaders.authorizationHeader:
+                'key=AAAA0nbz558:APA91bE4gwyWq-zcFM8aQcgvo93fE229sLs4JX2fbhxNpxvxsBOV6ycPWGtACfQd2zPbsEjWsUNhe4MeVJ5C30wxKoSni5lLfDKIIs6N3XXb7N5fB3FsB5tZQOpbnU2SOTL1he8zQGJC'
+          },
+          body: jsonEncode(body));
+      log('Response status: ${res.statusCode}');
+      log('Response body: ${res.body}');
+    } catch (e) {
+      log('\nsendPushNotificationE: $e');
+    }
+  }
+
+  static Future<void> getFirebaseMessagingToken() async {
+    await fmessaging.requestPermission();
+    fmessaging.getToken().then((t) {
+      if (t != null) {
+        me.pushToken = t;
+        APIs.updateActiveStatus(true);
+      }
+    });
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      log('Got a message whilst in the foregroung!');
+      log('Message data: ${message.data}');
+      if (message.notification != null) {
+        log('Message also contained a notificaiton: ${message.notification}');
+      }
     });
   }
 }
