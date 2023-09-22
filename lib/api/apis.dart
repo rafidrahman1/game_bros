@@ -53,7 +53,7 @@ class APIs {
           headers: {
             HttpHeaders.contentTypeHeader: 'application/json',
             HttpHeaders.authorizationHeader:
-                'key=AAAA0nbz558:APA91bHXnxtHBM-zf1xdY-TuAHFtVTdaeK0DGwbSfCdcehM8-5x3tJ6Pi4-U9EgR3tSnRJ3Ova59cClfUBlAeHjMMhH7Lw9YK84YQlhjvVHSldkLjuKyGygXpHRVNp0F7kVc-chVJMjg'
+                ''
           },
           body: jsonEncode(body));
       log('Response status: ${res.statusCode}');
