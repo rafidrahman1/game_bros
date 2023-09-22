@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           backgroundColor: const Color.fromRGBO(246, 247, 249, 1),
           leading: Icon(CupertinoIcons.home),
-          title: Text('Lemon Soda'),
+          title: Text('Home'),
           elevation: 0,
           actions: [
             IconButton(

@@ -1,6 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:game_bros/model/message.dart';
 
+import '../main.dart';
 import '../model/chat_user.dart';
 
 class MessageCard extends StatefulWidget {
@@ -32,6 +35,16 @@ class _MessageCardState extends State<MessageCard> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(mq.height * .03),
+          child: CachedNetworkImage(
+            width: mq.height * .05,
+            height: mq.height * .05,
+            imageUrl: widget.currentUser.image,
+            errorWidget: (context, url, error) =>
+                const CircleAvatar(child: Icon(CupertinoIcons.person)),
+          ),
+        ),
         // Row(
         //   children: [
         //     //for adding some space

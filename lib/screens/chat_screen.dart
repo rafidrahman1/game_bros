@@ -3,6 +3,7 @@ import 'package:clear_all_notifications/clear_all_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:game_bros/api/apis.dart'; // Import the APIs class
 import 'package:game_bros/model/message.dart';
+import 'package:game_bros/screens/user_screen.dart';
 import 'package:game_bros/widgets/message_card.dart'; // Import the new MessageCard widget
 
 import '../main.dart';
@@ -106,7 +107,13 @@ class _ChatScreenState extends State<ChatScreenState> {
           ],
         ),
         Spacer(),
-        // You can add the group image here
+        IconButton(
+          onPressed: () async {
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (_) => UserScreen()));
+          },
+          icon: Icon(Icons.people),
+        ),
         SizedBox(
           width: 10,
         ),

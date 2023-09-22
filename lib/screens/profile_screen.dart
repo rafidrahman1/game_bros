@@ -41,7 +41,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             padding: const EdgeInsets.only(bottom: 10),
             //New Conversation
             child: FloatingActionButton.extended(
-                backgroundColor: Colors.red,
+                backgroundColor: Color.fromRGBO(255, 224, 218, 1),
                 onPressed: () async {
                   // signout funciton
                   Dialogs.showProgressbar(context);
@@ -54,8 +54,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     });
                   });
                 },
-                icon: const Icon(Icons.logout),
-                label: const Text('Logout')),
+                icon: const Icon(
+                  Icons.logout,
+                  color: Color.fromRGBO(247, 124, 100, 1),
+                ),
+                label: const Text(
+                  'Logout',
+                  style: TextStyle(color: Color.fromRGBO(247, 124, 100, 1)),
+                )),
           ),
           body: Form(
             key: _formKey,
@@ -89,8 +95,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Text(widget.user.name,
                         style: const TextStyle(
                             fontWeight: FontWeight.w800,
-                            color: Colors.black54,
-                            fontSize: 21)),
+                            color: Colors.black87,
+                            fontSize: 25)),
                     //user name
                     SizedBox(height: mq.height * .04),
                     TextFormField(
@@ -100,7 +106,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ? null
                           : 'Required Field',
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.person, color: Colors.blue),
+                        prefixIcon: Icon(Icons.person,
+                            color: Color.fromRGBO(157, 165, 176, 1)),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15)),
                         hintText: 'Firstname',
@@ -116,7 +123,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ? null
                           : 'Required Field',
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.info, color: Colors.blue),
+                        prefixIcon: Icon(Icons.info,
+                            color: Color.fromRGBO(157, 165, 176, 1)),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15)),
                         hintText: 'Ex: Feelign great!',
