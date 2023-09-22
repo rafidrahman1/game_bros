@@ -1,25 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:game_bros/model/chat_user.dart';
-import 'package:game_bros/screens/auth/login_screeen.dart';
+import 'package:game_bros/api/apis.dart'; // Import the APIs class
+import 'package:game_bros/screens/chat_screen.dart'; // Import the ChatScreenState
 import 'package:game_bros/screens/profile_screen.dart';
-import 'package:game_bros/widgets/chat_user_card.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import '../api/apis.dart';
-import 'package:game_bros/main.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<ChatUser> _list = [];
-  final List<ChatUser> _searchList = [];
-  bool _isSearching = false;
-
   @override
   void initState() {
     super.initState();
@@ -29,120 +21,117 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      //hide keyboard when tap anywhere on screen
       onTap: () => FocusScope.of(context).unfocus(),
-      child: WillPopScope(
-        //when search is on if user press back button it will not close application
-        onWillPop: () {
-          if (_isSearching) {
-            setState(() {
-              _isSearching = !_isSearching;
-            });
-            return Future.value(false);
-          } else {
-            return Future.value(true);
-          }
-        },
-        child: Scaffold(
-          backgroundColor: Color.fromARGB(255, 255, 255, 255),
-          appBar: AppBar(
-            backgroundColor: Colors.limeAccent,
-            leading: Icon(CupertinoIcons.home),
-            title: _isSearching
-                ? TextField(
-                    decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Name, Email, ....'),
-                    autofocus: true,
-                    // style: const TextStyle(fontSize: 17, letterSpacing: 0.5),
-                    //when search text changes them update searchlist
-                    onChanged: (val) {
-                      //search logic
-                      _searchList.clear();
-                      for (var i in _list) {
-                        if (i.name.toLowerCase().contains(val.toLowerCase()) ||
-                            i.email.toLowerCase().contains(val.toLowerCase())) {
-                          _searchList.add(i);
-                        }
-                      }
-                      setState(() {
-                        _searchList;
-                      });
-                    },
-                  )
-                : Text('Lemon Soda'),
-            actions: [
-              //Search Button
-              IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _isSearching = !_isSearching;
-                    });
-                  },
-                  icon: Icon(_isSearching
-                      ? CupertinoIcons.clear_circled_solid
-                      : Icons.search)),
-
-              //Burger
-              IconButton(
+      child: Scaffold(
+        backgroundColor: Color.fromRGBO(246, 247, 249, 1),
+        appBar: AppBar(
+          backgroundColor: const Color.fromRGBO(246, 247, 249, 1),
+          leading: Icon(CupertinoIcons.home),
+          title: Text('Lemon Soda'),
+          elevation: 0,
+          actions: [
+            IconButton(
+              onPressed: () async {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => ProfileScreen(user: APIs.me)));
+              },
+              icon: Icon(Icons.people),
+            ),
+          ],
+        ),
+        body: Center(
+          child: GridView.count(
+            crossAxisCount: 2, // 2 buttons per row
+            mainAxisSpacing: 20.0,
+            crossAxisSpacing: 20.0,
+            padding: EdgeInsets.all(20.0),
+            children: [
+              // First button
+              GridTile(
+                child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => ProfileScreen(user: APIs.me)));
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ChatScreenState(
+                          groupId:
+                              'YOUR_GROUP_ID', // Replace with your group ID
+                        ),
+                      ),
+                    );
                   },
-                  icon: const Icon(Icons.more_vert))
-            ],
-          ),
-          floatingActionButton: Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            //New Conversation
-            child: FloatingActionButton(
-                onPressed: () async {
-                  // signout funciton
-                  await APIs.auth.signOut();
-                  await GoogleSignIn().signOut();
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (_) => LoginScreen()));
-                },
-                child: const Icon(Icons.add_comment_sharp)),
-          ),
-          body: StreamBuilder(
-            stream: APIs.getAllUsers(),
-            builder: (context, snapshot) {
-              switch (snapshot.connectionState) {
-                //if data is loading
-                case ConnectionState.waiting:
-                case ConnectionState.none:
-                  return const Center(child: CircularProgressIndicator());
-                //if some or all data is loaded then show it
-                case ConnectionState.active:
-                case ConnectionState.done:
-                  final data = snapshot.data?.docs;
-                  _list =
-                      data?.map((e) => ChatUser.fromJson(e.data())).toList() ??
-                          [];
+                  child: Icon(Icons.message,
+                      size: 50, color: Color.fromRGBO(120, 153, 123, 1)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(255, 191, 232, 225),
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    padding: EdgeInsets.all(20),
+                  ),
+                ),
+              ),
 
-                  if (_list.isNotEmpty) {
-                    return ListView.builder(
-                        itemCount:
-                            _isSearching ? _searchList.length : _list.length,
-                        padding: EdgeInsets.only(top: mq.height * .01),
-                        physics: const BouncingScrollPhysics(),
-                        itemBuilder: (contex, index) {
-                          return ChatUserCard(
-                              user: _isSearching
-                                  ? _searchList[index]
-                                  : _list[index]);
-                          // return Text('Name: ${list[index]}');
-                        });
-                  } else {
-                    return const Center(
-                        child: Text("No Connections Found!",
-                            style: TextStyle(fontSize: 20)));
-                  }
-              }
-            },
+              // Second button
+              GridTile(
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Add functionality for the second button
+                  },
+                  child: Icon(Icons.group,
+                      size: 50, color: Color.fromRGBO(152, 146, 147, 1)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromRGBO(223, 225, 249, 1),
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    padding: EdgeInsets.all(20),
+                  ),
+                ),
+              ),
+
+              // Third button
+              GridTile(
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Add functionality for the third button
+                  },
+                  child: Icon(Icons.search,
+                      size: 50, color: Color.fromRGBO(184, 147, 140, 1)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromRGBO(255, 224, 218, 1),
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    padding: EdgeInsets.all(20),
+                  ),
+                ),
+              ),
+
+              // Fourth button
+              GridTile(
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Add functionality for the fourth button
+                  },
+                  child: Icon(Icons.settings,
+                      size: 50, color: Color.fromRGBO(173, 155, 105, 1)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromRGBO(244, 234, 207, 1),
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    padding: EdgeInsets.all(20),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

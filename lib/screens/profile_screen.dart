@@ -1,11 +1,10 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:game_bros/model/chat_user.dart';
 import 'package:game_bros/screens/auth/login_screeen.dart';
+import 'package:game_bros/screens/home_screen.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../api/apis.dart';
 import '../helper/dialogs.dart';
@@ -31,9 +30,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           appBar: AppBar(
             backgroundColor: Colors.limeAccent,
             leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.black),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
+                icon: Icon(Icons.arrow_back, color: Colors.black),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (_) => HomeScreen()));
+                }),
             title: const Text('Profile Screen'),
           ),
           floatingActionButton: Padding(
@@ -48,9 +49,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     await GoogleSignIn().signOut().then((value) {
                       //for hiding progress dialog
                       Navigator.pop(context);
-                      //for movig to home screen
-                      Navigator.pop(context);
-                      //replace home with login screen
                       Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (_) => LoginScreen()));
                     });
@@ -139,7 +137,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               msg: "Your data has been saved",
                             );
                           });
-                          log('inside validator');
                         }
                       },
                       icon: const Icon(Icons.save),

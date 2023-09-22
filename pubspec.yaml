@@ -31,7 +31,11 @@ dependencies:
   fluttertoast: ^8.2.2
   image_picker: ^1.0.4
   upgrader: ^5.0.0
-
+  firebase_messaging: ^14.6.8
+  http: ^0.13.6
+  flutter_notification_channel: ^2.0.0
+  clear_all_notifications: ^0.0.3
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
