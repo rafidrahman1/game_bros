@@ -52,8 +52,7 @@ class APIs {
       var res = await post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
           headers: {
             HttpHeaders.contentTypeHeader: 'application/json',
-            HttpHeaders.authorizationHeader:
-                'key=AAAA0nbz558:APA91bHXnxtHBM-zf1xdY-TuAHFtVTdaeK0DGwbSfCdcehM8-5x3tJ6Pi4-U9EgR3tSnRJ3Ova59cClfUBlAeHjMMhH7Lw9YK84YQlhjvVHSldkLjuKyGygXpHRVNp0F7kVc-chVJMjg'
+            HttpHeaders.authorizationHeader: 'key='
           },
           body: jsonEncode(body));
       log('Response status: ${res.statusCode}');
@@ -111,7 +110,8 @@ class APIs {
         .set(chatUser.toJson());
   }
 
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUsers() {
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUsers(
+      List<String> list) {
     return firestore
         .collection('users')
         .where('id', isNotEqualTo: user.uid)
@@ -127,6 +127,23 @@ class APIs {
     return firestore
         .collection('group_chats/$groupId/messages/')
         .orderBy('sent', descending: true)
+        .snapshots();
+  }
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getLastMessage(
+      ChatUser user) {
+    return firestore
+        .collection('chats/${getConversationID(user.id)}/messages/')
+        .orderBy('sent', descending: true)
+        .limit(1)
+        .snapshots();
+  }
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getMyUsersId() {
+    return firestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('my_users')
         .snapshots();
   }
 
@@ -166,6 +183,14 @@ class APIs {
       log('$userDoc');
       await sendPushNotification(chatUser, type == Type.text ? msg : 'image');
     }
+  }
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getUserInfo(
+      ChatUser chatUser) {
+    return firestore
+        .collection('users')
+        .where('id', isEqualTo: chatUser.id)
+        .snapshots();
   }
 
   static const String defaultGroupId =

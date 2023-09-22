@@ -28,7 +28,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Scaffold(
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
           appBar: AppBar(
-            backgroundColor: Colors.limeAccent,
+            backgroundColor: Colors.white,
             leading: IconButton(
                 icon: Icon(Icons.arrow_back, color: Colors.black),
                 onPressed: () {
@@ -71,7 +71,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     //user profile picture
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(mq.height * .1),
                       child: CachedNetworkImage(
                         width: mq.height * .15,
                         height: mq.height * .15,
@@ -86,7 +86,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(
                       height: mq.height * .02,
                     ),
-                    Text(widget.user.email,
+                    Text(widget.user.name,
                         style: const TextStyle(
                             fontWeight: FontWeight.w800,
                             color: Colors.black54,
@@ -118,7 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.info, color: Colors.blue),
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10)),
+                            borderRadius: BorderRadius.circular(15)),
                         hintText: 'Ex: Feelign great!',
                         label: Text('About'),
                       ),
@@ -127,8 +127,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(height: mq.height * .03),
                     ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                          shape: const StadiumBorder(),
-                          minimumSize: Size(mq.width * .5, mq.height * .066)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15)),
+                          minimumSize: Size(mq.width * .5, mq.height * .066),
+                          backgroundColor: Color.fromARGB(255, 191, 232, 225)),
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
@@ -139,10 +141,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           });
                         }
                       },
-                      icon: const Icon(Icons.save),
+                      icon: const Icon(
+                        Icons.save,
+                        color: Color.fromARGB(255, 88, 115, 111),
+                      ),
                       label: Text(
                         'Save',
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Color.fromARGB(255, 88, 115, 111)),
                       ),
                     )
                   ],

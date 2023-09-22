@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:game_bros/api/apis.dart'; // Import the APIs class
 import 'package:game_bros/screens/chat_screen.dart'; // Import the ChatScreenState
 import 'package:game_bros/screens/profile_screen.dart';
+import 'package:game_bros/screens/user_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -37,8 +38,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     MaterialPageRoute(
                         builder: (_) => ProfileScreen(user: APIs.me)));
               },
-              icon: Icon(Icons.people),
+              icon: Icon(Icons.person),
             ),
+            SizedBox(width: 5)
           ],
         ),
         body: Center(
@@ -79,7 +81,10 @@ class _HomeScreenState extends State<HomeScreen> {
               GridTile(
                 child: ElevatedButton(
                   onPressed: () {
-                    // Add functionality for the second button
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => UserScreen()),
+                    );
                   },
                   child: Icon(Icons.group,
                       size: 50, color: Color.fromRGBO(152, 146, 147, 1)),
