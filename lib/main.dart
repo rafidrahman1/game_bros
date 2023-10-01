@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:game_bros/screens/splash_screen.dart';
-import 'package:upgrader/upgrader.dart';
 import 'firebase_options.dart';
 
 //global object for accessing device screen size
@@ -37,7 +36,7 @@ class MyApp extends StatelessWidget {
             color: Colors.black, fontWeight: FontWeight.normal, fontSize: 19),
         backgroundColor: Colors.white,
       )),
-      home: UpgradeAlert(child: SplashScreen()),
+      home: SplashScreen(),
     );
   }
 }

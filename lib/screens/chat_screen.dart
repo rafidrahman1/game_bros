@@ -3,22 +3,28 @@ import 'package:clear_all_notifications/clear_all_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:game_bros/api/apis.dart'; // Import the APIs class
 import 'package:game_bros/model/message.dart';
+import 'package:game_bros/screens/home_screen.dart';
 import 'package:game_bros/screens/user_screen.dart';
 import 'package:game_bros/widgets/message_card.dart'; // Import the new MessageCard widget
 
 import '../main.dart';
 
-class ChatScreenState extends StatefulWidget {
+class ChatScreen extends StatefulWidget {
   final String groupId; // Pass the group ID to the chat screen
 
-  const ChatScreenState({Key? key, required this.groupId}) : super(key: key);
+  const ChatScreen({Key? key, required this.groupId}) : super(key: key);
 
   @override
-  State<ChatScreenState> createState() => _ChatScreenState();
+  State<ChatScreen> createState() => _ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreenState> {
+class _ChatScreenState extends State<ChatScreen> {
   List<Message> _groupMessages = []; // Store group messages
+
+  final List<Message> _searchList = [];
+  // for storing search status
+  bool _isSearching = false;
+
   final TextEditingController _textController = TextEditingController();
 
   @override
@@ -49,10 +55,44 @@ class _ChatScreenState extends State<ChatScreenState> {
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            elevation: 0,
-            automaticallyImplyLeading: false,
-            backgroundColor: Color.fromRGBO(246, 247, 249, 1),
-            flexibleSpace: _appBar(),
+            leading: IconButton(
+              onPressed: () => Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (_) => const HomeScreen())),
+              icon: Icon(
+                Icons.home,
+                color: Colors.black54,
+              ),
+            ),
+            title: _isSearching
+                ? TextField(
+                    autofocus: true,
+                    onChanged: (val) {
+                      _searchList.clear();
+
+                      for (var i in _groupMessages) {
+                        if (i.msg.toLowerCase().contains(val.toLowerCase())) {
+                          _searchList.add(i);
+                          setState(() {
+                            _searchList;
+                          });
+                        }
+                      }
+                    },
+                  )
+                : Text('Lemon Soda'),
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _isSearching = !_isSearching;
+                    });
+                  },
+                  icon: Icon(_isSearching ? Icons.clear : Icons.search))
+            ],
+            // elevation: 0,
+            // automaticallyImplyLeading: false,
+            // backgroundColor: Color.fromRGBO(246, 247, 249, 1),
+            // flexibleSpace: _appBar(),
           ),
           backgroundColor: Color.fromRGBO(234, 237, 244, 1),
           body: Column(
@@ -61,12 +101,15 @@ class _ChatScreenState extends State<ChatScreenState> {
                 child: ListView.builder(
                   reverse:
                       true, // Reverse the list to display messages from bottom to top
-                  itemCount: _groupMessages.length,
+                  itemCount:
+                      _isSearching ? _searchList.length : _groupMessages.length,
                   padding: EdgeInsets.only(top: mq.height * .01),
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
                     return MessageCard(
-                      message: _groupMessages[index],
+                      message: _isSearching
+                          ? _searchList[index]
+                          : _groupMessages[index],
                       currentUser: APIs.me,
                       senderImage: _groupMessages[index].senderImage,
                       senderName: _groupMessages[index]
@@ -83,44 +126,47 @@ class _ChatScreenState extends State<ChatScreenState> {
     );
   }
 
-  Widget _appBar() {
-    return Row(
-      children: [
-        IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.black54,
-          ),
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Lemon Soda', // Replace with the group name
-              style: TextStyle(
-                fontSize: 15,
-                color: Colors.black54,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
-        ),
-        Spacer(),
-        IconButton(
-          onPressed: () async {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => UserScreen()));
-          },
-          icon: Icon(Icons.people),
-        ),
-        SizedBox(
-          width: 10,
-        ),
-      ],
-    );
-  }
+  // Widget _appBar() {
+  //   return Row(
+  //     children: [
+  //       IconButton(
+  //         onPressed: () => Navigator.pushReplacement(
+  //             context, MaterialPageRoute(builder: (_) => const HomeScreen())),
+  //         icon: Icon(
+  //           Icons.home,
+  //           color: Colors.black54,
+  //         ),
+  //       ),
+  //       _isSearching
+  //           ? TextField()
+  //           : Text(
+  //               'Lemon Soda', // Replace with the group name
+  //               style: TextStyle(
+  //                 fontSize: 15,
+  //                 color: Colors.black54,
+  //                 fontWeight: FontWeight.w500,
+  //               ),
+  //             ),
+  //       IconButton(
+  //           onPressed: () {
+  //             setState(() {
+  //               _isSearching = !_isSearching;
+  //             });
+  //           },
+  //           icon: Icon(_isSearching ? Icons.clear : Icons.search)),
+  //       IconButton(
+  //         onPressed: () async {
+  //           Navigator.pushReplacement(
+  //               context, MaterialPageRoute(builder: (_) => UserScreen()));
+  //         },
+  //         icon: Icon(Icons.people),
+  //       ),
+  //       SizedBox(
+  //         width: 10,
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Widget _chatInput() {
     return Padding(

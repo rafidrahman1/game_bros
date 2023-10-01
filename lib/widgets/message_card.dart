@@ -82,21 +82,21 @@ class _MessageCardState extends State<MessageCard> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: .2, left: 10),
-          child: Text(
-            widget.senderName, // Display sender's name
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-              color: Colors.grey,
-            ),
-          ),
+          padding: const EdgeInsets.only(bottom: 4, left: 10),
+          // child: Text(
+          //   widget.senderName, // Display sender's name
+          //   style: TextStyle(
+          //     fontSize: 12,
+          //     fontWeight: FontWeight.bold,
+          //     color: Colors.grey,
+          //   ),
+          // ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(bottom: .2, left: 10),
+              padding: const EdgeInsets.only(top: 15, left: 10),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
                 child: CachedNetworkImage(
@@ -109,21 +109,29 @@ class _MessageCardState extends State<MessageCard> {
               ),
             ),
             Flexible(
-              child: Container(
-                padding: EdgeInsets.all(10),
-                margin: EdgeInsets.only(
-                  left: 10,
-                  right: 80,
-                  top: 5,
-                  bottom: 5,
-                ),
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 255, 255, 253),
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                ),
-                child: Text(
-                  widget.message.msg,
-                  style: TextStyle(fontSize: 15, color: Colors.black87),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 15),
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.only(
+                    left: 10,
+                    right: 80,
+                    top: 5,
+                    bottom: 5,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 255, 255, 253),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15),
+                      topRight: Radius.circular(15),
+                      bottomLeft: Radius.circular(0),
+                      bottomRight: Radius.circular(15),
+                    ),
+                  ),
+                  child: Text(
+                    widget.message.msg,
+                    style: TextStyle(fontSize: 15, color: Colors.black87),
+                  ),
                 ),
               ),
             ),

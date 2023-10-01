@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => ChatScreenState(
+                        builder: (_) => ChatScreen(
                           groupId:
                               'YOUR_GROUP_ID', // Replace with your group ID
                         ),

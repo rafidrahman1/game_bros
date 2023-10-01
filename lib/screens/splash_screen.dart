@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:game_bros/main.dart';
 import 'package:game_bros/screens/auth/login_screeen.dart';
-import 'package:game_bros/screens/home_screen.dart';
+import 'package:game_bros/screens/chat_screen.dart';
 import '../api/apis.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -25,7 +25,11 @@ class _SplashScreenState extends State<SplashScreen> {
       if (APIs.auth.currentUser != null) {
         //navigate to homescreen
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const HomeScreen()));
+            context,
+            MaterialPageRoute(
+                builder: (_) => ChatScreen(
+                      groupId: 'YOUR_GROUP_ID',
+                    )));
       } else {
         //navigate to loginscreen
         Navigator.pushReplacement(
