@@ -13,11 +13,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
-    super.initState();
-    APIs.getSelfInfo();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   APIs.getSelfInfo();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
           actions: [
             IconButton(
               onPressed: () async {
-                Navigator.pushReplacement(
+                Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (_) => ProfileScreen(user: APIs.me)));
@@ -54,15 +54,9 @@ class _HomeScreenState extends State<HomeScreen> {
               GridTile(
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => ChatScreen(
-                          groupId:
-                              'YOUR_GROUP_ID', // Replace with your group ID
-                        ),
-                      ),
-                    );
+                    Navigator.pop(context);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => ChatScreen()));
                   },
                   child: Icon(Icons.message,
                       size: 50, color: Color.fromRGBO(120, 153, 123, 1)),
@@ -100,20 +94,22 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
 
               // Third button
-              GridTile(
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Add functionality for the third button
-                  },
-                  child: Icon(Icons.search,
-                      size: 50, color: Color.fromRGBO(184, 147, 140, 1)),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromRGBO(255, 224, 218, 1),
-                    elevation: 4,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
+              GestureDetector(
+                child: GridTile(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Add functionality for the third button
+                    },
+                    child: Icon(Icons.search,
+                        size: 50, color: Color.fromRGBO(184, 147, 140, 1)),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromRGBO(255, 224, 218, 1),
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      padding: EdgeInsets.all(20),
                     ),
-                    padding: EdgeInsets.all(20),
                   ),
                 ),
               ),

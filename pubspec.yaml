@@ -30,9 +30,11 @@ dependencies:
   #for flutter toast msg
   fluttertoast: ^8.2.2
   image_picker: ^1.0.4
-  upgrader: ^5.0.0
+  flutter_chat_bubble: ^2.0.2
   firebase_messaging: ^14.6.8
-  http: ^0.13.6
+  reaction_askany: ^0.1.2
+  swipe_to: ^1.0.2
+  http: ^1.1.0
   flutter_notification_channel: ^2.0.0
   clear_all_notifications: ^0.0.3
   

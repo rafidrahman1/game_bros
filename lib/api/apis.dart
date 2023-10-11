@@ -14,8 +14,6 @@ class APIs {
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
   static User get user => auth.currentUser!;
   static FirebaseMessaging fmessaging = FirebaseMessaging.instance;
-  static String? t;
-
   static Future<void> updateActiveStatus(bool isOnline) async {
     firestore.collection('users').doc(user.uid).update({
       'is_online': isOnline,
@@ -102,6 +100,7 @@ class APIs {
   }
 
   static Future<void> sendGroupMessage(
+    String dq,
     String groupId,
     String msg,
     Type type,
@@ -111,7 +110,7 @@ class APIs {
     final time = DateTime.now().millisecondsSinceEpoch.toString();
 
     final Message message = Message(
-      id: time,
+      rePly: dq,
       toId: groupId,
       msg: msg,
       read: '',
@@ -124,18 +123,24 @@ class APIs {
 
     final ref = firestore.collection('group_chats/$groupId/messages/');
     await ref.doc(time).set(message.toJson());
-
-    // Get all users in the group except the sender (current user)
     final users = await firestore
         .collection('users')
         .where('id', isNotEqualTo: user.uid)
         .get();
-
-    // Send push notifications to all users in the group except the sender
     for (final userDoc in users.docs) {
       final chatUser = ChatUser.fromJson(userDoc.data());
       await sendPushNotification(chatUser, type == Type.text ? msg : 'image');
     }
+    // Get all users in the group except the sender (current user)
+
+    // Send push notifications to all users in the group except the sender
+  }
+
+  static Future<void> updateMessageReadStatus(Message message) async {
+    firestore
+        .collection('chats/${getConversationID(message.fromId)}/messages/')
+        .doc(message.sent)
+        .update({'read': DateTime.now().millisecondsSinceEpoch.toString()});
   }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getUserInfo(
@@ -190,10 +195,10 @@ class APIs {
                 'key=AAAA0nbz558:APA91bE4gwyWq-zcFM8aQcgvo93fE229sLs4JX2fbhxNpxvxsBOV6ycPWGtACfQd2zPbsEjWsUNhe4MeVJ5C30wxKoSni5lLfDKIIs6N3XXb7N5fB3FsB5tZQOpbnU2SOTL1he8zQGJC'
           },
           body: jsonEncode(body));
-      log('Response status: ${res.statusCode}');
-      log('Response body: ${res.body}');
+      'Response status: ${res.statusCode}';
+      'Response body: ${res.body}';
     } catch (e) {
-      log('\nsendPushNotificationE: $e');
+      '\nsendPushNotificationE: $e';
     }
   }
 
@@ -206,8 +211,6 @@ class APIs {
       }
     });
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      log('Got a message whilst in the foregroung!');
-      log('Message data: ${message.data}');
       if (message.notification != null) {
         log('Message also contained a notificaiton: ${message.notification}');
       }

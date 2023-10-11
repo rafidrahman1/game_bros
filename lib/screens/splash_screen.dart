@@ -23,13 +23,11 @@ class _SplashScreenState extends State<SplashScreen> {
           systemNavigationBarColor: Colors.transparent,
           statusBarColor: Colors.white));
       if (APIs.auth.currentUser != null) {
+        APIs.getSelfInfo();
+        APIs.initializeUserData();
         //navigate to homescreen
         Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (_) => ChatScreen(
-                      groupId: 'YOUR_GROUP_ID',
-                    )));
+            context, MaterialPageRoute(builder: (_) => ChatScreen()));
       } else {
         //navigate to loginscreen
         Navigator.pushReplacement(

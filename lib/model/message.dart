@@ -1,6 +1,5 @@
 class Message {
   Message({
-    required this.id,
     required this.toId,
     required this.msg,
     required this.read,
@@ -8,10 +7,10 @@ class Message {
     required this.fromId,
     required this.sent,
     required this.senderName, // Add sender's name field
-    required this.senderImage, // Add sender's image URL field
+    required this.senderImage,
+    required this.rePly, // Add sender's image URL field
   });
-
-  late final String id;
+  late final String rePly;
   late final String toId;
   late final String msg;
   late final String read;
@@ -22,21 +21,20 @@ class Message {
   late final String senderImage; // Sender's image URL
 
   Message.fromJson(Map<String, dynamic> json) {
-    id = json['id'].toString();
     toId = json['toId'].toString();
     msg = json['msg'].toString();
     read = json['read'].toString();
     type = json['type'].toString() == Type.image.name ? Type.image : Type.text;
     fromId = json['fromId'].toString();
+    rePly = json['rePly'].toString();
     sent = json['sent'].toString();
     senderName = json['senderName'].toString();
-    senderImage =
-        json['senderImage'].toString(); // Initialize the sender's name
+    senderImage = json['senderImage'].toString();
   }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
-    data['id'] = id;
+    data['rePly'] = rePly;
     data['toId'] = toId;
     data['msg'] = msg;
     data['read'] = read;

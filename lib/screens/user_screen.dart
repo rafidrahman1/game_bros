@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:game_bros/screens/home_screen.dart';
 import '../api/apis.dart';
 import '../main.dart';
 import '../model/chat_user.dart';
@@ -69,6 +70,8 @@ class _UserScreenState extends State<UserScreen> {
             leading: IconButton(
               onPressed: () {
                 Navigator.pop(context);
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (_) => const HomeScreen()));
               },
               icon: Icon(
                 Icons.arrow_back,

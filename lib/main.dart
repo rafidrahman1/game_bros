@@ -5,7 +5,10 @@ import 'package:game_bros/screens/splash_screen.dart';
 import 'firebase_options.dart';
 
 //global object for accessing device screen size
+
 late Size mq;
+late String dq = '';
+late String groupId = 'YOUR_GROUP_ID';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   //enter full-screen
