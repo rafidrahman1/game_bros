@@ -20,23 +20,27 @@ dependencies:
   #for integrating firebase
   firebase_core: ^2.15.1  
   #for handling google sign in
-  google_sign_in: ^6.1.5
+  google_sign_in: ^7.2.0
   #for handling firebase authentication
   firebase_auth: ^4.9.0
   #for accessign cloud firestore database
-  cloud_firestore: ^4.9.1
+  cloud_firestore: ^4.17.5
   #for showing network images
   cached_network_image: ^3.2.3
   #for flutter toast msg
-  fluttertoast: ^8.2.2
-  image_picker: ^1.0.4
+  fluttertoast: ^9.0.0
+  image_picker: ^1.2.1
   flutter_chat_bubble: ^2.0.2
   firebase_messaging: ^14.6.8
   reaction_askany: ^0.1.2
   swipe_to: ^1.0.2
   http: ^1.1.0
-  flutter_notification_channel: ^2.0.0
-  clear_all_notifications: ^0.0.3
+  flutter_notification_channel: ^3.2.0
+  clear_all_notifications: ^1.0.0
+  win32: ^5.15.0
+  flutter_plugin_android_lifecycle: ^2.0.33
+  path_provider: ^2.1.5
+  sqflite: ^2.4.2
   
 dev_dependencies:
   flutter_test:

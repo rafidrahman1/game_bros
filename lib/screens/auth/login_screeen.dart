@@ -17,6 +17,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen>
     with TickerProviderStateMixin {
+  bool _googleInitialized = false;
   late final AnimationController _controller = AnimationController(
     duration: const Duration(seconds: 2),
     vsync: this,
@@ -59,15 +60,20 @@ class _LoginScreenState extends State<LoginScreen>
     try {
       await InternetAddress.lookup('google.com');
 
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (!_googleInitialized) {
+        await GoogleSignIn.instance.initialize();
+        _googleInitialized = true;
+      }
+
+      final GoogleSignInAccount? googleUser =
+          await GoogleSignIn.instance.authenticate();
 
       // Obtain the auth details from the request
       final GoogleSignInAuthentication? googleAuth =
           await googleUser?.authentication;
 
-      // Create a new credential
+      // Create a new credential (Firebase only needs the ID token)
       final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
 

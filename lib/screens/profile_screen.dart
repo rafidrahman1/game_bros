@@ -45,7 +45,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   // signout funciton
                   Dialogs.showProgressbar(context);
                   await APIs.auth.signOut().then((value) async {
-                    await GoogleSignIn().signOut().then((value) {
+                    await GoogleSignIn.instance.signOut().then((value) {
                       //for hiding progress dialog
                       Navigator.pop(context);
                       Navigator.pushReplacement(context,
